@@ -1,10 +1,10 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
-// import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 
-// import schema from './schema';
-// import resolvers from './resolvers';
+import schema from './schema';
+import resolvers from './resolvers';
 // import models from './models';
 
 const app = express();
@@ -32,27 +32,25 @@ spotifyApi.clientCredentialsGrant()
     });
 
 
-// const server = new ApolloServer({
-//     typeDefs: schema,
-//     resolvers,
-//     context: {
-//         models,
-//         me: models.users[1],
-//     },
-// });
+const server = new ApolloServer({
+    typeDefs: schema,
+    resolvers,
+    context: {
+        models: spotifyApi,
+    },
+});
 
-// server.applyMiddleware({ app, path: '/graphql' });
+server.applyMiddleware({ app, path: '/graphql' });
 
 app.get("/test", (req, res, next) => {
-    res.json(// Get Elvis' albums
-        spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
-            function (data) {
-                console.log('Artist albums', data.body);
-            },
-            function (err) {
-                console.error(err);
-            }
-        ));
+    spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
+        function (data) {
+            return res.json(data.body);
+        },
+        function (err) {
+            console.error(err);
+        }
+    )
 });
 
 const port = process.env.PORT || 8000;
