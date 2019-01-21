@@ -2,8 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    album(id: ID!): Album
-    searchTracks(q: String!): SearchResults! 
+    searchTracks(q: String!, limit: String!): SearchResults! 
   }
 
   type Album {
@@ -31,6 +30,7 @@ export default gql`
     id: String!
     href: String!
     name: String!
+    popularity: Int!
     
   }
 

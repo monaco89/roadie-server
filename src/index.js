@@ -13,14 +13,11 @@ app.use(cors());
 
 var SpotifyWebApi = require('spotify-web-api-node');
 
-// credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     redirectUri: process.env.SPOTIFY_DEVELOPMENT_REDIRECT_URI,
 });
-
-
 
 spotifyApi.clientCredentialsGrant()
     .then(function (data) {
@@ -30,7 +27,6 @@ spotifyApi.clientCredentialsGrant()
     }, function (err) {
         console.log('Something went wrong when retrieving an access token', err);
     });
-
 
 const server = new ApolloServer({
     typeDefs: schema,
@@ -42,19 +38,19 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.get("/test", (req, res, next) => {
-    spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
-        function (data) {
-            return res.json(data.body);
-        },
-        function (err) {
-            console.error(err);
-        }
-    )
-});
+// app.get("/test", (req, res, next) => {
+//     spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
+//         function (data) {
+//             return res.json(data.body);
+//         },
+//         function (err) {
+//             console.error(err);
+//         }
+//     )
+// });
 
 const port = process.env.PORT || 8000;
 
 app.listen({ port }, () => {
-    console.log(`Server on http://localhost:${port}`);
+    console.log(`Server on http://localhost:${port}/graphql`);
 });
