@@ -2,6 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import morgan from 'morgan';
 
 import schema from './schema';
 import resolvers from './resolvers';
@@ -10,6 +11,8 @@ import resolvers from './resolvers';
 const app = express();
 
 app.use(cors());
+
+app.use(morgan('dev'));
 
 var SpotifyWebApi = require('spotify-web-api-node');
 

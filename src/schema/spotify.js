@@ -2,13 +2,15 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    searchTracks(q: String!, limit: String!): SearchResults! 
+    searchTracks(q: String!, limit: String!): SearchResults!
+    searchMultipleTracks(q: [String!]): [SearchResults!]
   }
 
   type Album {
     href: String!
     artist: Artists!
     images: [Image]!
+    name: String!
   }
 
   type Artists {
