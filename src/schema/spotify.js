@@ -19,11 +19,16 @@ export default gql`
 
   type SearchResults {
       tracks: Tracks!
+      meta: Meta
   }
 
   type Tracks {
       href: String!
       items: [Item!]
+  }
+
+  type Meta {
+    rating: String!
   }
 
   type Item {

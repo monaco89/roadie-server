@@ -22,6 +22,9 @@ export default {
                 tracks.push(t.body);
             }
 
+            // TODO Make 'rating' an Int
+            // TODO Clean up
+
             let totalScores = 0;
             // total popularity of all tracks
             tracks.forEach((track) => {
@@ -30,9 +33,18 @@ export default {
 
             const rating = totalScores / q.length;
 
-            tracks.meta = { rating: rating };
+            tracks.forEach((track) => {
+                track.meta = { rating: String(rating) };
+            });
+
+            console.log(tracks);
 
             return tracks;
         },
     },
+    // Meta: {
+    //     rating: async (meta, args, { models }) => {
+    //         return await "69";
+    //     },
+    // },
 };
