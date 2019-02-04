@@ -19,7 +19,9 @@ export default {
             for (const query of q) {
                 // use searchTracks query for each q
                 const t = await models.searchTracks(`track:${query}`, { limit: limit });
-                tracks.push(t.body);
+                if (t.body.tracks.items.length !== 0) {
+                    tracks.push(t.body);
+                }
             }
 
             // TODO Make 'rating' an Int
@@ -36,8 +38,6 @@ export default {
             tracks.forEach((track) => {
                 track.meta = { rating: String(rating) };
             });
-
-            console.log(tracks);
 
             return tracks;
         },

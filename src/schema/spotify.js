@@ -37,7 +37,7 @@ export default gql`
     id: String!
     href: String!
     name: String!
-    popularity: Int!
+    popularity: Int
     
   }
 
