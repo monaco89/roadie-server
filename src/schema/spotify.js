@@ -38,7 +38,8 @@ export default gql`
     href: String!
     name: String!
     popularity: Int
-    
+    duration_ms: Int
+    spotify_url: String!    
   }
 
   type Image {

@@ -17,7 +17,7 @@ export default {
             // Loop through each q
             let tracks = [];
             for (const query of q) {
-                // use searchTracks query for each q
+                // Use searchTracks query for each q
                 const t = await models.searchTracks(`track:${query}`, { limit: limit });
                 if (t.body.tracks.items.length !== 0) {
                     tracks.push(t.body);
@@ -28,15 +28,18 @@ export default {
             // TODO Clean up
 
             let totalScores = 0;
-            // total popularity of all tracks
+            // Total popularity of all tracks
             tracks.forEach((track) => {
                 totalScores += track.tracks.items[0].popularity;
             });
 
+            // Get the average rating
             const rating = totalScores / q.length;
 
             tracks.forEach((track) => {
                 track.meta = { rating: String(rating) };
+                // Get spotify external url
+                track.tracks.items[0].spotify_url = track.tracks.items[0].external_urls.spotify;
             });
 
             return tracks;
@@ -44,7 +47,7 @@ export default {
     },
     // Meta: {
     //     rating: async (meta, args, { models }) => {
-    //         return await "69";
+    //         return await "100";
     //     },
     // },
 };
