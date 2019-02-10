@@ -20,3 +20,28 @@ export const track = async variables =>
         `,
         variables,
     });
+
+export const user = async variables =>
+    axios.post(API_URL, {
+        query: `
+        query ($id: ID!) {
+            user(id: $id) {
+                id
+                email
+            }
+        }
+    `,
+        variables,
+    });
+
+export const signIn = async variables =>
+    await axios.post(API_URL, {
+        query: `
+        mutation ($login: String!, $password: String!) {
+            signIn(login: $login, password: $password) {
+            token
+            }
+        }
+    `,
+        variables,
+    });
