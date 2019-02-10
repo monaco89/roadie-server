@@ -71,11 +71,11 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
 
 });
 
-const createTestUsers = async => {
+const createTestUsers = async () => {
     await models.User.create(
         {
             email: "nickmonaco@nickmonaco.com",
-            password: "pass",
+            password: "password4321",
         }
     );
 }
