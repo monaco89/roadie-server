@@ -25,6 +25,14 @@ const user = (sequelize, DataTypes) => {
         user.password = await user.generatePasswordHash();
     });
 
+    User.findByLogin = async login => {
+        let user = await User.findOne({
+            where: { email: login },
+        });
+
+        return user;
+    };
+
     User.prototype.generatePasswordHash = async function () {
         const saltRounds = 10;
         return await bcrypt.hash(this.password, saltRounds);

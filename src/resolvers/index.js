@@ -1,3 +1,7 @@
 import spotifyResolvers from './spotify';
+import userResolvers from './user';
 
-export default [spotifyResolvers];
+export default [
+    spotifyResolvers,
+    userResolvers,
+];
