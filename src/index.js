@@ -1,12 +1,14 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import morgan from 'morgan';
+import jwt from 'jsonwebtoken';
+import http from 'http';
 
 import schema from './schema';
 import resolvers from './resolvers';
-// import models from './models';
+import models, { sequelize } from './models';
 
 const app = express();
 
@@ -14,46 +16,67 @@ app.use(cors());
 
 app.use(morgan('dev'));
 
-var SpotifyWebApi = require('spotify-web-api-node');
+const getMe = async req => {
+    const token = req.headers['x-token'];
 
-var spotifyApi = new SpotifyWebApi({
-    clientId: process.env.SPOTIFY_CLIENT_ID,
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    redirectUri: process.env.SPOTIFY_DEVELOPMENT_REDIRECT_URI,
-});
-
-spotifyApi.clientCredentialsGrant()
-    .then(function (data) {
-        console.log('The access token expires in ' + data.body['expires_in']);
-        console.log('The access token is ' + data.body['access_token']);
-        spotifyApi.setAccessToken(data.body['access_token']);
-    }, function (err) {
-        console.log('Something went wrong when retrieving an access token', err);
-    });
+    if (token) {
+        try {
+            return await jwt.verify(token, process.env.SECRET);
+        } catch (e) {
+            throw new AuthenticationError(
+                'Your session expired. Sign in again.',
+            );
+        }
+    }
+};
 
 const server = new ApolloServer({
     typeDefs: schema,
     resolvers,
-    context: {
-        models: spotifyApi,
+    formatError: error => {
+        const message = error.message
+            .replace('SequelizeValidationError: ', '')
+            .replace('Validation error: ', '');
+
+        return {
+            ...error,
+            message,
+        };
+    },
+    context: async ({ req }) => {
+        const me = await getMe(req);
+
+        return {
+            models,
+            me,
+            secret: process.env.SECRET,
+        };
     },
 });
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-// app.get("/test", (req, res, next) => {
-//     spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
-//         function (data) {
-//             return res.json(data.body);
-//         },
-//         function (err) {
-//             console.error(err);
-//         }
-//     )
-// });
+const eraseDatabaseOnSync = true;
 
 const port = process.env.PORT || 8000;
 
-app.listen({ port }, () => {
-    console.log(`Server on http://localhost:${port}/graphql`);
+sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
+    if (eraseDatabaseOnSync) {
+        createTestUsers();
+    }
+
+    app.listen({ port }, () => {
+        console.log(`Server on http://localhost:${port}/graphql`);
+    });
+
 });
+
+const createTestUsers = async => {
+    await models.User.create(
+        {
+            email: "nickmonaco@nickmonaco.com",
+            password: "pass",
+        }
+    );
+}
+
