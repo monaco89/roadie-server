@@ -5,7 +5,7 @@ export default {
             { q, limit },
             { models }
         ) => {
-            const tracks = await models.searchTracks(`track:${q}`, { limit: limit });
+            const tracks = await models.Spotify.searchTracks(`track:${q}`, { limit: limit });
 
             return tracks.body;
         },
@@ -18,7 +18,7 @@ export default {
             let tracks = [];
             for (const query of q) {
                 // Use searchTracks query for each q
-                const t = await models.searchTracks(`track:${query}`, { limit: limit });
+                const t = await models.Spotify.searchTracks(`track:${query}`, { limit: limit });
                 if (t.body.tracks.items.length !== 0) {
                     tracks.push(t.body);
                 }
