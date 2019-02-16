@@ -23,12 +23,12 @@ const getMe = async req => {
         try {
             return await jwt.verify(token, process.env.SECRET);
         } catch (e) {
-            throw new AuthenticationError(
-                'Your session expired. Sign in again.',
-            );
+            // TODO Fix Error, was breaking site, throws 400 error
+            // throw new AuthenticationError(
+            //     'Your session expired. Sign in again.',
+            // );
         }
     }
-    console.log("token", token);
 };
 
 const server = new ApolloServer({
@@ -46,7 +46,7 @@ const server = new ApolloServer({
     },
     context: async ({ req }) => {
         const me = await getMe(req);
-        // console.log("me", me);
+
         return {
             models,
             me,

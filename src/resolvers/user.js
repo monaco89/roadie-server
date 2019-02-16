@@ -9,7 +9,6 @@ const createToken = async (user, secret, expiresIn) => {
 export default {
     Query: {
         user: async (parent, { id }, { models }) => {
-            // TODO Use findByPk, findById is deprecated
             return await models.User.findByPk(id);
         },
         me: async (parent, args, { models, me }) => {
@@ -17,7 +16,6 @@ export default {
                 return null;
             }
 
-            // TODO Use findByPk, findById is deprecated
             return await models.User.findByPk(me.id);
         },
     },
