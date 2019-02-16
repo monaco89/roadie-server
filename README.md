@@ -1,10 +1,19 @@
-# thatconcertfire-server
+# roadie-server
 
-This is the server for [That Concert Fire UI](https://github.com/monaco89/thatconcertfire)
+This is the server for [That Concert Fire UI](https://github.com/monaco89/roadie)
 
-This project is a Node.js with Express + Apollo Server server 
+This project is a Node.js with Express & MySQL + Apollo Server server 
 
 To query spotify's REST API, [Spotify Web API Node](https://github.com/thelinmichael/spotify-web-api-node) is installed. Then with custom resolvers and GraphQL schema, this is a GraphQL wrapper for the [Spotify API](https://developer.spotify.com/web-api/).
+
+Also uses the ORM [Sequelize](https://github.com/sequelize/sequelize) to manage the MySQL database
+
+## HighLights
+
+* Search for Tracks on Spotify using GraphQL
+* Run multiple search queries against the Spotify API
+* User Sign Up and Sign In
+* Authentication using [JWT](https://jwt.io/)
 
 ## To Use
 
