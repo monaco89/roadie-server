@@ -28,6 +28,7 @@ const getMe = async req => {
             );
         }
     }
+    console.log("token", token);
 };
 
 const server = new ApolloServer({
@@ -45,7 +46,7 @@ const server = new ApolloServer({
     },
     context: async ({ req }) => {
         const me = await getMe(req);
-
+        // console.log("me", me);
         return {
             models,
             me,
@@ -79,4 +80,3 @@ const createTestUsers = async () => {
         }
     );
 }
-

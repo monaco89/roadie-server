@@ -16,8 +16,9 @@ export default {
             if (!me) {
                 return null;
             }
+
             // TODO Use findByPk, findById is deprecated
-            return await models.User.findById(id);
+            return await models.User.findById(me.id);
         },
     },
 
