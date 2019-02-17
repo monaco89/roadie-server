@@ -8,10 +8,10 @@ To query spotify's REST API, [Spotify Web API Node](https://github.com/thelinmic
 
 Also uses the ORM [Sequelize](https://github.com/sequelize/sequelize) to manage the MySQL database
 
-## HighLights
+## Highlights
 
 * Search for Tracks on Spotify using GraphQL
-* Run multiple search queries against the Spotify API
+* Run multiple search queries against the Spotify API with one GraphQL query
 * User Sign Up and Sign In
 * Authentication using [JWT](https://jwt.io/)
 
