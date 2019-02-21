@@ -7,7 +7,7 @@ import {
 } from 'apollo-server-express';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
-import http from 'http';
+// import http from 'http';
 
 import schema from './schema';
 import resolvers from './resolvers';
@@ -63,7 +63,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 // const eraseDatabaseOnSync = true;
 
 const isTest = !!process.env.TEST_DATABASE;
-const isProduction = !!process.env.DATABASE_URL;
+// const isProduction = !!process.env.DATABASE_URL;
 
 const port = process.env.PORT || 8000;
 
