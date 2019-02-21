@@ -19,6 +19,10 @@ const user = (sequelize, DataTypes) => {
         len: [7, 42],
       },
     },
+    confirmed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   });
 
   User.beforeCreate(async user => {
