@@ -66,6 +66,7 @@ export default {
 
     confirm: async (parent, { id }, { models }) => {
       // TODO decrypt id from url
+      // TODO Send message instead of boolean
       const user = await models.User.findByPk(id);
 
       if (!user) {
