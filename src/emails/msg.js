@@ -1,4 +1,4 @@
-export const EMAILS = {
+export default {
   confirm: 'Email sent, please check your inbox to confirm',
   confirmed: 'Your email is confirmed!',
   resend: 'Confirmation email resent, maybe check your spam?',

@@ -11,7 +11,7 @@ export default gql`
 
     signIn(login: String!, password: String!): Token!
 
-    confirm(id: String!): Boolean
+    confirm(id: String!): EmailMessage
   }
 
   type Token {
@@ -21,5 +21,9 @@ export default gql`
   type User {
     id: ID!
     email: String!
+  }
+
+  type EmailMessage {
+    msg: String!
   }
 `;
