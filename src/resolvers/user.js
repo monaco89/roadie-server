@@ -1,5 +1,7 @@
 import { AuthenticationError, UserInputError } from 'apollo-server';
 import jwt from 'jsonwebtoken';
+import mailer from '../emails/send';
+import templates from '../emails/templates';
 
 const createToken = async (user, secret, expiresIn) => {
   const { id, email } = user;
@@ -31,7 +33,8 @@ export default {
         password,
       });
 
-      // TODO Email verification
+      // Send Email verification
+      await mailer(user.email, templates.confirm(user.id));
       // After signup, automatically signin
       return { token: createToken(user, secret, '1h') };
     },
@@ -41,6 +44,7 @@ export default {
       { login, password },
       { models, secret },
     ) => {
+      // Find user by email first, then validate password
       const user = await models.User.findByLogin(login);
 
       if (!user) {
@@ -60,8 +64,26 @@ export default {
       return { token: createToken(user, secret, '1h') };
     },
 
-    confirm: async (parent, { id }, { models, secret }) => {
-      // TODO Set confirm
+    confirm: async (parent, { id }, { models }) => {
+      // TODO decrypt id from url
+      const user = await models.User.findByPk(id);
+
+      if (!user) {
+        // Return false instead of authentication error.
+        return false;
+      }
+
+      if (user && !user.confirmed) {
+        user
+          .update({
+            confirmed: true,
+          })
+          .then(function() {
+            return true;
+          });
+      }
+
+      return false;
     },
   },
 };
