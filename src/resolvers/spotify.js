@@ -46,6 +46,9 @@ export default {
 
       return tracks;
     },
+    getTrack: async (parent, { id }, { models }) => {
+      return await models.Spotify.getTrack(id);
+    },
   },
   // Meta: {
   //     rating: async (meta, args, { models }) => {

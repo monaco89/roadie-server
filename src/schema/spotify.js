@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     searchTracks(q: String!, limit: String!): SearchResults!
     searchMultipleTracks(q: [String!]): [SearchResults!]
+    getTrack(id: String!): Item!
   }
 
   type Album {
