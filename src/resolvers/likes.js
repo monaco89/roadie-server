@@ -1,3 +1,5 @@
+import { ForbiddenError } from 'apollo-server';
+import sequelize from 'sequelize';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated, isLikeOwner } from './authorization';
 
@@ -11,6 +13,26 @@ export default {
           type: type,
         },
       });
+    },
+    topRated: async (parent, { id, type }, { models }) => {
+      if (type !== 'song' && type !== 'event') {
+        throw new ForbiddenError('Wrong type.');
+      }
+
+      const likes = await models.Likes.findAll({
+        where: {
+          lid: id,
+          type: type,
+        },
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('lid')), 'count_lids'],
+        ],
+        // order: 'count_lids DESC',
+      });
+
+      console.log(likes);
+
+      return likes;
     },
   },
   Mutation: {

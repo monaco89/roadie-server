@@ -14,17 +14,18 @@ export default gql`
   }
 
   type Artists {
-      name: String!
+    name: String!
   }
 
   type SearchResults {
-      tracks: Tracks!
-      meta: Meta
+    tracks: Tracks!
+    meta: Meta
   }
 
+  # TODO Rename Tracks -> Track
   type Tracks {
-      href: String!
-      items: [Item!]
+    href: String!
+    items: [Item!]
   }
 
   type Meta {
@@ -39,10 +40,10 @@ export default gql`
     name: String!
     popularity: Int
     duration_ms: Int
-    spotify_url: String!    
+    spotify_url: String!
   }
 
   type Image {
-      url: String!
+    url: String!
   }
 `;

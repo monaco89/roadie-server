@@ -85,8 +85,23 @@ sequelize.sync({ force: isTest }).then(async () => {
 });
 
 const createTestUsers = async () => {
-  await models.User.create({
-    email: 'nickmonaco@nickmonaco.com',
-    password: 'password4321',
-  });
+  await models.User.create(
+    {
+      email: 'nickmonaco@nickmonaco.com',
+      password: 'password4321',
+      likes: [
+        {
+          lid: '39783',
+          type: 'event',
+        },
+        {
+          lid: '39782',
+          type: 'event',
+        },
+      ],
+    },
+    {
+      include: [models.Likes],
+    },
+  );
 };
