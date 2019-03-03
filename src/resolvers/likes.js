@@ -36,7 +36,7 @@ export default {
   },
   Like: {
     user: async (like, args, { models }) => {
-      return await models.user.findByPk(like.uid);
+      return await models.User.findByPk(like.uid);
     },
   },
 };
