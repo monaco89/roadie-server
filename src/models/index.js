@@ -21,6 +21,7 @@ if (process.env.DATABASE_URL) {
 const models = {
   Spotify: spotifyApi,
   User: sequelize.import('./user'),
+  Likes: sequelize.import('./likes'),
 };
 
 // const models = spotifyApi;

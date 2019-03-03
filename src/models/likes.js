@@ -1,11 +1,11 @@
 const likes = (sequelize, DataTypes) => {
   const Likes = sequelize.define('likes', {
-    id: {
+    lid: {
       type: DataTypes.String,
       allowNull: false,
     },
     uid: {
-      type: DataTypes.ID,
+      type: DataTypes.String,
       allowNull: false,
     },
     type: {
@@ -13,6 +13,10 @@ const likes = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
+
+  Likes.associate = models => {
+    Likes.belongsTo(models.User);
+  };
 
   return Likes;
 };

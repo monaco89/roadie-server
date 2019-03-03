@@ -25,6 +25,10 @@ const user = (sequelize, DataTypes) => {
     },
   });
 
+  User.associate = models => {
+    User.hasMany(models.Likes, { onDelete: 'CASCADE' });
+  };
+
   User.beforeCreate(async user => {
     user.password = await user.generatePasswordHash();
   });
