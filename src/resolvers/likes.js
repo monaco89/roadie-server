@@ -25,14 +25,34 @@ export default {
           type: type,
         },
         attributes: [
-          [sequelize.fn('COUNT', sequelize.col('lid')), 'count_lids'],
+          [
+            'lid',
+            [
+              sequelize.fn('COUNT', sequelize.col('lid')),
+              'count_lids',
+            ],
+          ],
         ],
         // order: 'count_lids DESC',
       });
 
       console.log(likes);
 
-      return likes;
+      // Spotify query for track id
+      const results = [];
+      if (type === 'song') {
+        results = likes.foreach(async like => {
+          await models.Spotify.getTrack(like.id);
+        });
+        return results;
+      }
+
+      // TODO Query Setlist.fm for event info
+      if (type === 'event') {
+        return 'events';
+      }
+
+      return results;
     },
   },
   Mutation: {
