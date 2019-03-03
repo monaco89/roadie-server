@@ -4,10 +4,6 @@ const likes = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    uid: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     type: {
       type: DataTypes.STRING,
       allowNull: false,

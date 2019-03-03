@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    likes(lid: String, uid: String, type: String!): [Like!]
+    likes(lid: String, userId: String, type: String!): [Like!]
     like(lid: String!): Like
   }
 

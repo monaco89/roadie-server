@@ -7,11 +7,13 @@ import {
 } from 'apollo-server-express';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
+import DataLoader from 'dataloader';
 // import http from 'http';
 
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
+import loaders from './loaders';
 
 const app = express();
 
@@ -54,6 +56,11 @@ const server = new ApolloServer({
       models,
       me,
       secret: process.env.SECRET,
+      loaders: {
+        user: new DataLoader(keys =>
+          loaders.user.batchUsers(keys, models),
+        ),
+      },
     };
   },
 });

@@ -3,11 +3,11 @@ import { isAuthenticated, isLikeOwner } from './authorization';
 
 export default {
   Query: {
-    likes: async (parent, { lid, uid, type }, { models }) => {
+    likes: async (parent, { lid, userId, type }, { models }) => {
       return models.Likes.findAll({
         where: {
           lid: lid,
-          uid: uid,
+          userId: userId,
           type: type,
         },
       });
@@ -19,7 +19,7 @@ export default {
       async (parent, { lid, type }, { models, me }) => {
         const like = await models.Likes.create({
           lid,
-          uid: me.id,
+          userId: me.id,
           type: type,
         });
 
@@ -35,8 +35,10 @@ export default {
     ),
   },
   Like: {
-    user: async (like, args, { models }) => {
-      return await models.User.findByPk(like.uid);
+    user: async (like, args, { loaders }) => {
+      // Load function will batch all identifiers into one set
+      // and request all users at the same time.
+      return await loaders.user.load(like.userId);
     },
   },
 };
