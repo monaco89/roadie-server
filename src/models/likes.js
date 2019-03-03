@@ -1,11 +1,11 @@
 const likes = (sequelize, DataTypes) => {
   const Likes = sequelize.define('likes', {
     lid: {
-      type: DataTypes.String,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     uid: {
-      type: DataTypes.String,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     type: {

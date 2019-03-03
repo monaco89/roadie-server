@@ -1,3 +1,6 @@
+import { combineResolvers } from 'graphql-resolvers';
+import { isAuthenticated, isLikeOwner } from './authorization';
+
 export default {
   Query: {
     likes: async (parent, { lid, uid, type }, { models }) => {
@@ -9,6 +12,27 @@ export default {
         },
       });
     },
+  },
+  Mutation: {
+    liked: combineResolvers(
+      isAuthenticated,
+      async (parent, { lid, type }, { models, me }) => {
+        const like = await models.Likes.create({
+          lid,
+          uid: me.id,
+          type: type,
+        });
+
+        return like;
+      },
+    ),
+    disliked: combineResolvers(
+      isAuthenticated,
+      isLikeOwner,
+      async (parent, { lid }, { models }) => {
+        return await models.Likes.destory({ where: { lid } });
+      },
+    ),
   },
   Like: {
     user: async (like, args, { models }) => {
