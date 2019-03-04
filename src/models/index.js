@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import spotifyApi from './spotify';
+import setlistfm from './setlistfm';
 
 let sequelize;
 
@@ -20,6 +21,7 @@ if (process.env.DATABASE_URL) {
 
 const models = {
   Spotify: spotifyApi,
+  Setlistfm: setlistfm,
   User: sequelize.import('./user'),
   Likes: sequelize.import('./likes'),
 };

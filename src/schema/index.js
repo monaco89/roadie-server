@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 import spotifySchema from './spotify';
+import setlistfm from './setlistfm';
 import userSchema from './user';
 import likesSchema from './likes';
 
@@ -14,4 +15,10 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, spotifySchema, userSchema, likesSchema];
+export default [
+  linkSchema,
+  spotifySchema,
+  userSchema,
+  likesSchema,
+  setlistfm,
+];
