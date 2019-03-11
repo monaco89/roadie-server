@@ -92,10 +92,18 @@ const createTestUsers = async () => {
       likes: [
         {
           lid: '39783',
-          type: 'event',
+          type: 'song',
         },
         {
           lid: '39782',
+          type: 'song',
+        },
+        {
+          lid: '63ebe663',
+          type: 'event',
+        },
+        {
+          lid: 'b94bd3a',
           type: 'event',
         },
       ],

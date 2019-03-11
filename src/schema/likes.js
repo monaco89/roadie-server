@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     likes(lid: String, userId: String, type: String!): [Like!]
     like(lid: String!): Like
+    # // ? Why need an id
     topRated(id: String, type: String!): [Tracks!]
   }
 
@@ -16,6 +17,5 @@ export default gql`
     lid: String!
     user: User!
     type: String!
-    #createdAt: Date!
   }
 `;

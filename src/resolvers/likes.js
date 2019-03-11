@@ -19,38 +19,66 @@ export default {
         throw new ForbiddenError('Wrong type.');
       }
 
-      const likes = await models.Likes.findAll({
-        where: {
-          lid: id,
-          type: type,
-        },
-        attributes: [
-          [
-            'lid',
-            [
-              sequelize.fn('COUNT', sequelize.col('lid')),
-              'count_lids',
-            ],
-          ],
-        ],
-        // order: 'count_lids DESC',
-      });
-
-      console.log(likes);
+      let likes;
+      if (id) {
+        likes = await models.Likes.findAll({
+          where: {
+            lid: id,
+            type: type,
+          },
+          // TODO Get top count
+          // attributes: [
+          //   [
+          //     'lid',
+          //     [
+          //       sequelize.fn('COUNT', sequelize.col('lid')),
+          //       'count_lids',
+          //     ],
+          //   ],
+          // ],
+          // order: 'count_lids DESC',
+        });
+      } else {
+        likes = await models.Likes.findAll({
+          where: {
+            type: type,
+          },
+          // TODO Get top count
+          // attributes: [
+          //   [
+          //     'lid',
+          //     [
+          //       sequelize.fn('COUNT', sequelize.col('lid')),
+          //       'count_lids',
+          //     ],
+          //   ],
+          // ],
+          // order: 'count_lids DESC',
+        });
+      }
 
       // Spotify query for track id
-      const results = [];
+      let results = [];
       if (type === 'song') {
-        results = likes.foreach(async like => {
-          await models.Spotify.getTrack(like.id);
+        likes.forEach(async like => {
+          const track = await models.Spotify.getTrack(
+            like.dataValues.lid,
+          );
+          results.push(track);
         });
-        return results;
       }
 
-      // TODO Query Setlist.fm for event info
+      // Query Setlist.fm for event info
       if (type === 'event') {
-        return 'events';
+        likes.forEach(async like => {
+          const setlist = await models.Setlistfm.getSetlist(
+            like.dataValues.lid,
+          );
+          console.log(setlist);
+          results.push(setlist);
+        });
       }
+      console.log(results);
 
       return results;
     },
