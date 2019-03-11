@@ -12,7 +12,7 @@ export default gql`
     id: String!
     eventDate: String!
     tour: Tour!
-    set: [Set!]!
+    sets: Sets!
   }
 
   type Artist {
@@ -30,6 +30,10 @@ export default gql`
     name: String!
   }
 
+  type Sets {
+    set: [Set!]
+  }
+
   type Set {
     name: String!
     encore: Int
@@ -45,12 +49,12 @@ export default gql`
 
   type Song {
     name: String!
-    info: String!
     cover: Cover
   }
 
   type Cover {
     name: String!
-    artist: Artist!
+    sortName: String!
+    mbid: String!
   }
 `;
