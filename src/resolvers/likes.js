@@ -60,24 +60,31 @@ export default {
       // Spotify query for track id
       let results = [];
       if (type === 'song') {
-        likes.forEach(async like => {
-          const track = await models.Spotify.getTrack(
+        for (const like of likes) {
+          const response = await models.Spotify.getTrack(
             like.dataValues.lid,
           );
-          results.push(track);
-        });
+          console.log(response);
+          results.push(response);
+        }
       }
 
       // Query Setlist.fm for event info
       if (type === 'event') {
-        likes.forEach(async like => {
-          const setlist = await models.Setlistfm.getSetlist(
+        for (const like of likes) {
+          const response = await models.Setlistfm.getSetlist(
             like.dataValues.lid,
           );
-          console.log(setlist);
-          results.push(setlist);
-        });
+
+          results.push({
+            id: response.id,
+            date: response.eventDate,
+            artist: response.artist,
+            name: response.tour.name,
+          });
+        }
       }
+
       console.log(results);
 
       return results;

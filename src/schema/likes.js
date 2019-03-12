@@ -5,7 +5,7 @@ export default gql`
     likes(lid: String, userId: String, type: String!): [Like!]
     like(lid: String!): Like
     # // ? Why need an id
-    topRated(id: String, type: String!): [Tracks!]
+    topRated(id: String, type: String!): [Result!]
   }
 
   extend type Mutation {
@@ -17,5 +17,12 @@ export default gql`
     lid: String!
     user: User!
     type: String!
+  }
+
+  type Result {
+    id: String!
+    date: String!
+    artist: Artist!
+    name: String!
   }
 `;
