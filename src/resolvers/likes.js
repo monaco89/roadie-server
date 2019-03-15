@@ -61,11 +61,20 @@ export default {
       let results = [];
       if (type === 'song') {
         for (const like of likes) {
-          const response = await models.Spotify.getTrack(
+          const response = await models.Spotify.getTracks([
             like.dataValues.lid,
-          );
-          console.log(response);
-          results.push(response);
+          ]);
+
+          results.push({
+            id: response.body.tracks[0].id,
+            date: response.body.tracks[0].album.release_date,
+            artist: {
+              name: response.body.tracks[0].artists[0].name,
+              mbid: 'null',
+              sortName: response.body.tracks[0].artists[0].name,
+            },
+            name: response.body.tracks[0].name,
+          });
         }
       }
 
@@ -84,8 +93,6 @@ export default {
           });
         }
       }
-
-      console.log(results);
 
       return results;
     },

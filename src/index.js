@@ -91,11 +91,11 @@ const createTestUsers = async () => {
       password: 'password4321',
       likes: [
         {
-          lid: '39783',
+          lid: '1qwnPVOIJjAFfCc40Etb1D',
           type: 'song',
         },
         {
-          lid: '39782',
+          lid: '2IRZnDFmlqMuOrYOLnZZyc',
           type: 'song',
         },
         {
