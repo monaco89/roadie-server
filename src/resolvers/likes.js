@@ -97,6 +97,13 @@ export default {
             date: response.eventDate,
             artist: response.artist,
             name: response.tour.name,
+            venue: {
+              name: response.venue.name,
+              city: {
+                name: response.venue.city.name,
+                stateCode: response.venue.city.stateCode,
+              },
+            },
           });
         }
       }
