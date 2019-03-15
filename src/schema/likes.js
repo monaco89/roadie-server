@@ -24,5 +24,6 @@ export default gql`
     date: String!
     artist: Artist!
     name: String!
+    album: Album!
   }
 `;

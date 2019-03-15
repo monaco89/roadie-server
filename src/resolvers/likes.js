@@ -74,6 +74,13 @@ export default {
               sortName: response.body.tracks[0].artists[0].name,
             },
             name: response.body.tracks[0].name,
+            album: {
+              images: [
+                {
+                  url: response.body.tracks[0].album.images[0].url,
+                },
+              ],
+            },
           });
         }
       }
